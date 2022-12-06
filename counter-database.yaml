@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: counter-database
+  namespace: zlic-rcoric1
+type: Opaque
+data:
+  dbuser: cG9zdGdyZXM=
+  dbpassword: cGFzc3dvcmQK
+  dbname: ZGF0YWJhc2U=
