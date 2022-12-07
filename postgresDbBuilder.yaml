@@ -1,38 +1,37 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres
-  namespace: zlic-rcoric1
+  name: counter-database
 spec:
+  replicas: 1
   selector:
     matchLabels:
-    app: postgres
-  replicas: 1
+      app: counter-database
+
   template:
     metadata:
       labels:
-        app: postgres
+        app: counter-database
     spec:
       containers:
-        - name: postgres
+        - name: counter-database
           image: registry.redhat.io/rhel8/postgresql-12
+          imagePullPolicy: Always
           ports:
             - containerPort: 5432
           env:
             - name: POSTGRESQL_USER
               valueFrom:
-                secretKeyRef:
-                  name: counter-database
-                  key: dbuser
-
+              secretKeyRef:
+                name: counter-database
+                key: dbuser
             - name: POSTGRESQL_PASSWORD
               valueFrom:
-                secretKeyRef:
-                  name: counter-database
-                  key: dbpassword
-
+              secretKeyRef:
+                name: counter-database
+                key: dbpassword
             - name: POSTGRESQL_DATABASE
               valueFrom:
-                secretKeyRef:
-                  name: counter-database
-                  key: dbname
+              secretKeyRef:
+                name: counter-database
+                key: dbname
