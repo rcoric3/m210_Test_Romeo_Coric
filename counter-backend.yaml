@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "counter-backend"
+spec:
+  selector:
+    matchLabels:
+      app: "counter-backend"
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: "counter-backend"
+    spec:
+      containers:
+        - name: "counter-backend"
+          image: "ghcr.io/rcoric3/counter-backend:v1"
+
+          ports:
+            - containerPort: 8080
+
+          env:
+          
+            - name: POSTGRESQL_USER
+              valueFrom:
+              secretKeyRef:
+                name: counter-database
+                key: dbuser
+            - name: POSTGRESQL_PASSWORD
+              valueFrom:
+              secretKeyRef:
+                name: counter-database
+                key: dbpassword
+            - name: POSTGRESQL_DATABASE
+              valueFrom:
+              secretKeyRef:
+                name: counter-database
+                key: dbname
+
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: 'counter-config'
+                  key: dbhost
+                  
+            - name: PASSPHRASE
+              valueFrom:
+                secretKeyRef:
+                  name: counter-secret
+                  key: passphrase
+

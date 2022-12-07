@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: 'counter-config'
+  namespace: zlic-rcoric1
+data:
+  dbhost: localhost
